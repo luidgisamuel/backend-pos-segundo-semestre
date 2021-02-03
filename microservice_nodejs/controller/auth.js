@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const User = require('../model/user')
@@ -19,17 +18,7 @@ router.post('/', async (req, res) => {
 
         const user = await User.findOne({ where: { email } })
 
-        if (!user) {
-            console.log("email invalido")
-            return res.status(400).send({
-                error: 'E-mail ou senha inválidos'                
-            })
-        }
-
-        const passwordMatches = await bcrypt.compare(password, user.password)
-
-        if (!passwordMatches) {
-            console.log("senha invalido")
+        if (!user || password === user.password) {
             return res.status(400).send({
                 error: 'E-mail ou senha inválidos'
             })
