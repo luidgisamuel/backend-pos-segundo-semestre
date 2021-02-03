@@ -45,13 +45,17 @@ public class SubjectResource {
     return  subjectRepository.save(subject);
   }
 
-  @DeleteMapping("/subject")
-  public void removeSubject(@RequestBody @Valid Subject subject) {
-    subjectRepository.delete(subject);
+  @DeleteMapping("/subject/{id}")
+  public void removeSubject(@PathVariable(value = "id") Long id) {
+    subjectRepository.deleteById(id);
   }
 
-  @PutMapping("/subject")
-  public Subject updateSubject(@RequestBody @Valid Subject subject) {
-    return subjectRepository.save(subject);
+  @PutMapping("/subject/{id}")
+  public Subject updateSubject(@RequestBody @Valid Subject subject, @PathVariable(value = "id") Long id) {
+    Subject subject2 = subjectRepository.findSubjectById(id);
+    subject2.setId(id);
+    subject2.setName(subject.getName());  
+    subject2.setTime_load(subject.getTime_load()); 
+    return subjectRepository.save(subject2); 
   }
 }

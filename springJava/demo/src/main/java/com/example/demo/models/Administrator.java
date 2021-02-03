@@ -12,9 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-
 @Entity
 @Table (name="administrator")
 public class Administrator implements Serializable{
@@ -27,12 +24,9 @@ public class Administrator implements Serializable{
   private String name;
 
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "administrator_user",
-  joinColumns = {@JoinColumn(name = "admin_cpf")},
-  inverseJoinColumns = {@JoinColumn(name = "user_id")})
-  private User user;
-
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  
+  private User user; 
+  
 
   public Administrator() {
   }
@@ -65,7 +59,5 @@ public class Administrator implements Serializable{
 
   public void setUser(User user) {
     this.user = user;
-  }
- 
-
+  }  
 }

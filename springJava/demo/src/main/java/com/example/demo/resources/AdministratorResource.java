@@ -21,16 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value = "/api")
 @Api(value = "API REST Administrator")
-@CrossOrigin (origins = "*")
+@CrossOrigin(origins = "*")
 public class AdministratorResource {
-  
 
   @Autowired
   AdministratorRepository administratorRepository;
 
-  @GetMapping("/admin")  
+  @GetMapping("/admin")
   public List<Administrator> listAdministrator() {
     return administratorRepository.findAll();
   }
@@ -42,16 +41,21 @@ public class AdministratorResource {
 
   @PostMapping("/admin")
   public Administrator addAdministrator(@RequestBody @Valid Administrator administrator) {
-    return  administratorRepository.save(administrator);
-  }
-
-  @DeleteMapping("/admin")
-  public void removeAdministrator(@RequestBody @Valid Administrator administrator) {
-    administratorRepository.delete(administrator);
-  }
-
-  @PutMapping("/admin")
-  public Administrator updateAdministrator(@RequestBody @Valid Administrator administrator) {
     return administratorRepository.save(administrator);
+  }
+
+  @DeleteMapping("/admin/{cpf}")
+  public void removeAdministrator(@PathVariable(value = "cpf") String cpf) {
+    administratorRepository.deleteById(cpf);
+  }
+
+  @PutMapping("/admin/{cpf}")
+  public Administrator updateAdministrator(@RequestBody @Valid Administrator administrator,
+      @PathVariable(value = "cpf") String cpf) {
+    Administrator administrator2 = administratorRepository.findByCpf(cpf);
+    administrator2.setCpf(cpf);
+    administrator2.setName(administrator.getName());
+    administrator2.setUser(administrator.getUser());
+    return administratorRepository.save(administrator2);
   }
 }

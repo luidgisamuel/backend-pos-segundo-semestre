@@ -24,6 +24,7 @@ public class Institute implements Serializable {
   @NotNull
   private String telephone; 
 
+
   public Institute() {
   }
 
@@ -65,5 +66,5 @@ public class Institute implements Serializable {
   public void setTelephone(String telephone) {
     this.telephone = telephone;
   }
-  
+ 
 }

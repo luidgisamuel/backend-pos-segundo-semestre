@@ -45,13 +45,20 @@ public class StudentResource {
     return  studentRepository.save(student);
   }
 
-  @DeleteMapping("/student")
-  public void removeStudent(@RequestBody @Valid Student student) {
-    studentRepository.delete(student);
+  @DeleteMapping("/student/{cpf}")
+  public void removeStudent(@PathVariable(value = "cpf") String cpf) {
+    studentRepository.deleteById(cpf);
   }
 
-  @PutMapping("/student")
-  public Student updateStudent(@RequestBody @Valid Student student) {
-    return studentRepository.save(student);
+  @PutMapping("/student/{cpf}")
+  public Student updateStudent(@RequestBody @Valid Student student, @PathVariable(value = "cpf") String cpf) {
+    Student student2 = studentRepository.findByCpf(cpf);
+    student2.setCpf(cpf);
+    student2.setName(student.getName());
+    student2.setAddress(student.getAddress());
+    student2.setCellphone(student.getCellphone());  
+    student2.setUser(student.getUser());
+    student2.setCourses(student.getCourses());
+    return studentRepository.save(student2); 
   }
 }

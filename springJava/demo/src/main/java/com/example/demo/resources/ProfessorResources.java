@@ -44,13 +44,20 @@ public class ProfessorResources {
     return  professorRepository.save(professor);
   }
 
-  @DeleteMapping("/professor")
-  public void removeProfessor(@RequestBody @Valid Professor professor) {
-    professorRepository.delete(professor);
+  @DeleteMapping("/professor/{cpf}")
+  public void removeProfessor(@PathVariable(value = "cpf") String cpf) {
+    professorRepository.deleteById(cpf);
   }
 
-  @PutMapping("/professor")
-  public Professor updateProfessor(@RequestBody @Valid Professor professor) {
-    return professorRepository.save(professor);
+  @PutMapping("/professor/{cpf}")
+  public Professor updateProfessor(@RequestBody @Valid Professor professor, @PathVariable(value = "cpf") String cpf) {
+    Professor professor2 = professorRepository.findByCpf(cpf);
+    professor2.setCpf(cpf);
+    professor2.setName(professor.getName());
+    professor2.setEducation(professor.getEducation());
+    professor2.setCellphone(professor.getCellphone());
+    professor2.setSalary(professor.getSalary());
+    professor2.setUser(professor.getUser());
+    return professorRepository.save(professor2); 
   }
 }

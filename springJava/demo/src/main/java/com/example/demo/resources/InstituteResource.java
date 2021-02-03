@@ -21,37 +21,37 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value = "/api")
 @Api(value = "API REST Institute")
-@CrossOrigin (origins = "*")
+@CrossOrigin(origins = "*")
 
-public class InstituteResource {  
-  
+public class InstituteResource {
+
   @Autowired
   InstituteRepository instituteRepository;
 
-  @GetMapping("/institute")  
+  @GetMapping("/institute")
   public List<Institute> listInstitute() {
     return instituteRepository.findAll();
   }
 
-  @GetMapping("/institute/{cnpj}")
-  public Institute listInstituteById(@PathVariable(value = "cnpj") String cnpj) {
-    return instituteRepository.findByCnpj(cnpj);
-  }
-
   @PostMapping("/institute")
   public Institute addInstitute(@RequestBody @Valid Institute institute) {
-    return  instituteRepository.save(institute);
-  }
-
-  @DeleteMapping("/institute")
-  public void removeInstitute(@RequestBody @Valid Institute institute) {
-    instituteRepository.delete(institute);
-  }
-
-  @PutMapping("/institute")
-  public Institute updateInstitute(@RequestBody @Valid Institute institute) {
     return instituteRepository.save(institute);
+  }
+
+  @DeleteMapping("/institute/{cnpj}")
+  public void removeInstitute(@PathVariable(value = "cnpj") String cnpj) {
+    instituteRepository.deleteById(cnpj);
+  }
+
+  @PutMapping("/institute/{cnpj}")
+  public Institute updateInstitute(@RequestBody @Valid Institute institute, @PathVariable(value = "cnpj") String cnpj) {
+    Institute institute2 = instituteRepository.findByCnpj(cnpj);
+    institute2.setCnpj(cnpj);
+    institute2.setName(institute.getName());
+    institute2.setAddress(institute.getAddress());
+    institute2.setTelephone(institute.getTelephone());
+    return instituteRepository.save(institute2); 
   }
 }

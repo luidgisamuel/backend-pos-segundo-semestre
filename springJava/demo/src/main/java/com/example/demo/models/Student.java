@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -35,10 +35,7 @@ public class Student implements Serializable{
   private String address;
 
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "student_user",
-  joinColumns = {@JoinColumn(name = "student_cpf")},
-  inverseJoinColumns = {@JoinColumn(name = "user_id")})
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  
   private User user;
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

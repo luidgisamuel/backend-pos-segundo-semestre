@@ -1,9 +1,6 @@
 package com.example.demo.models;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.persistence.JoinColumn;
@@ -24,7 +20,7 @@ public class Grade implements Serializable{
   private static final long serialVersionUID = 1L;
   
   @Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
   private long id;
 
   @NotNull
@@ -34,14 +30,14 @@ public class Grade implements Serializable{
   private double value;
 
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinTable(name = "grade_student",
   joinColumns = {@JoinColumn(name = "grade_id")},
   inverseJoinColumns = {@JoinColumn(name = "student_cpf")})
   private Student student;
 
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinTable(name = "grade_subject",
   joinColumns = {@JoinColumn(name = "grade_id")},
   inverseJoinColumns = {@JoinColumn(name = "subject_id")})

@@ -11,9 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table (name="professor")
@@ -36,10 +34,7 @@ public class Professor implements Serializable{
   private double salary;
 
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "professor_user",
-  joinColumns = {@JoinColumn(name = "professor_cpf")},
-  inverseJoinColumns = {@JoinColumn(name = "user_id")})
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  
   private User user;
 
   public Professor() {
