@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
         const user = await User.findOne({ where: { email } })
 
-        if (!user || password === user.password) {
+        if (!user || password !== user.password) {
             return res.status(400).send({
                 error: 'E-mail ou senha inválidos'
             })
