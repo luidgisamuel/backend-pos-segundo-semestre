@@ -41,23 +41,21 @@ public class Grade implements Serializable{
   private Student student;
 
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinTable(name = "grade_subject",
   joinColumns = {@JoinColumn(name = "grade_id")},
   inverseJoinColumns = {@JoinColumn(name = "subject_id")})
-  private List<Subject> subjects;
-
-
+  private Subject subject;
 
   public Grade() {
   }
 
-  public Grade(long id, String description, double value, Student student, List<Subject> subjects) {
+  public Grade(long id, String description, double value, Student student, Subject subject) {
     this.id = id;
     this.description = description;
     this.value = value;
     this.student = student;
-    this.subjects = subjects;
+    this.subject = subject;
   }
 
   public long getId() {
@@ -92,12 +90,12 @@ public class Grade implements Serializable{
     this.student = student;
   }
 
-  public List<Subject> getSubjects() {
-    return this.subjects;
+  public Subject getSubject() {
+    return this.subject;
   }
 
-  public void setSubjects(List<Subject> subjects) {
-    this.subjects = subjects;
+  public void setSubject(Subject subject) {
+    this.subject = subject;
   }
-  
+ 
 }
